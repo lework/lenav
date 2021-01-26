@@ -155,6 +155,10 @@ export default {
 .ivu-layout-sider {
     z-index: 100;
 }
+.ivu-layout-has-sider {
+    height: 100%;
+    position: fixed;
+}
 .logo-con img {
     width: 180px;
     margin: 10px;
