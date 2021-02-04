@@ -40,16 +40,16 @@ npm install
 dev 环境配置 `.env.dev` 文件
 ```
 NODE_ENV=dev
-API_ROOT=""
+BASE_URL=""
 ```
 
 prod 环境配置 `.env.prod` 文件
 ```
 NODE_ENV=production
-API_ROOT="https://cdn.jsdelivr.net/gh/lework/lenav@master/docs/"
+BASE_URL="https://cdn.jsdelivr.net/gh/lework/lenav@master/docs/"
 ```
 
-- `API_ROOT`: 接口请求的根路径。
+- `BASE_URL`: 接口请求的根路径。
 
 ### Compiles and hot-reloads for development
 ```

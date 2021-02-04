@@ -6,7 +6,7 @@ const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV); //env
 
 module.exports = {
   // 基本路径
-  publicPath: process.env.NODE_ENV === "production" ? process.env.API_ROOT : "./", //打包后的位置(如果不设置这个静态资源会报404),
+  publicPath: process.env.NODE_ENV === "production" ? process.env.BASE_URL : "./", //打包后的位置(如果不设置这个静态资源会报404),
   // 输出文件目录
   outputDir: 'docs',
   // eslint-loader 是否在保存的时候检查
