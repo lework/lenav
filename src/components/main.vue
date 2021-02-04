@@ -1,6 +1,6 @@
 
 <template>
-    <div class="layout">
+    <div class="layout" v-if="data">
         <Layout>
             <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
             <div class="logo-con">
@@ -31,7 +31,7 @@
                 <Content >
                     <NavSub :data="data" :spinShow="spinShow"></NavSub>
                 </Content>
-                <Footer class="layout-footer-center">lenav ©2019 Created by Lework <a href="https://github.com/lework/lenav" target="_blank">GitHub</a></Footer>
+                <Footer class="layout-footer-center">lenav ©2021 Created by Lework <a href="https://github.com/lework/lenav" target="_blank">GitHub</a></Footer>
             </Layout>
         </Layout>
         <BackTop></BackTop>
@@ -39,14 +39,14 @@
 </template>
 <script>
 import NavSub from '@/components/card/sub'
-import Data from '@/data/data'
+// import Data from '@/data/data'
 export default {
     data () {
         return {
             isCollapsed: false,
             search: '',
             searchStatus: false,
-            data: Data,
+            data: null,
             sourceData: '',
             serarchNum: 0,
             spinShow: false
@@ -60,10 +60,31 @@ export default {
             ]
         }
     },
+    created: function() {
+        console.group('------Create创建前状态------');
+        this._getData()
+    },
     methods: {
+        _getData() {
+            this.spinShow = true;
+            this.$axios
+              .get("/data/nav.json") // 获取nav数据
+              .then(rep => {
+                  this.data = rep.data;
+                  this.spinShow = false;
+              })
+              .catch(e => {
+                  this.$Message.error({
+                      content: "获取数据失败!",
+                      duration: 120,
+                      closable: true
+                  });
+                  console.log("错误信息：",e);
+              });
+        },
         jumpAnchor (name) {
             if (document.documentElement.clientWidth <= 768 ){
-                    this.isCollapsed = true
+                this.isCollapsed = true
             }
             document.querySelector('#' + name).scrollIntoView({
                 behavior: 'smooth',
@@ -77,8 +98,11 @@ export default {
             }
             if (!this.searchStatus) {
                 this.sourceData = JSON.parse(JSON.stringify(this.data))
+            } else {
+                this.data = JSON.parse(JSON.stringify(this.sourceData))
             }
             this.searchStatus = true
+            this.serarchNum = 0
             for (let d in this.data) {
                 for (let i = 0; i < this.data[d]['nav'].length; i++) {
                     if (this.data[d]['nav'][i]['name'].toLowerCase().indexOf(this.search.toLowerCase()) === -1) {
@@ -93,7 +117,7 @@ export default {
                 }
             }
             if (this.serarchNum === 0) {
-                this.$Message.error('没找到哦.')
+                this.$Message.error('没找到哦，请重试!')
             } else {
                 this.$Message.success('查找到了' + this.serarchNum + '个相近的.')
             }
@@ -155,10 +179,10 @@ export default {
 .ivu-layout-sider {
     z-index: 100;
 }
-.ivu-layout-has-sider {
+/* .ivu-layout-has-sider {
     height: 100%;
     position: fixed;
-}
+} */
 .logo-con img {
     width: 180px;
     margin: 10px;

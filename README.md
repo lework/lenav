@@ -4,34 +4,52 @@
 
 ## 技术栈
 
-vue2 + vuex + vue-router + vue-lazyload + iview +  clipboard + js-cookie + webpack + less + sass
+vue2 + vuex + vue-router + vue-lazyload + iview +  clipboard + js-cookie + webpack + less + sass + axios
 
 ## 添加网址
 
-在`src/data/website`目录下存放着收录的网址信息文件
+在`public/data/nav.json`文件中存放着收录的网址信息文件
 
 添加网址条目的格式如下：
 
-``` javascripts
-export default {
-    title: '公司环境地址',
-    hash: '#com',
-    nav: [
-        {
-            icon: './static/images/jenkins.png', 
-            name: 'jenkins',
-            desc: '测试环境Jenkins',
-            link: 'http://127.0.0.1:8080/'
-        },
-    ]
+``` json
+{
+  "company": {
+      "title": "公司环境地址",
+      "name": "com",
+      "nav": [
+          {
+              "icon": "./static/images/jenkins.png",
+              "name": "jenkins",
+              "desc": "测试环境Jenkins",
+              "link": "http://127.0.0.1:8080/"
+          }
+      ]
+  }
 }
-
 ```
 
 ## 项目运行
+
 ```
 npm install
 ```
+
+### 环境配置
+
+dev 环境配置 `.env.dev` 文件
+```
+NODE_ENV=dev
+API_ROOT=""
+```
+
+prod 环境配置 `.env.prod` 文件
+```
+NODE_ENV=production
+API_ROOT="https://cdn.jsdelivr.net/gh/lework/lenav@master/docs/"
+```
+
+- `API_ROOT`: 接口请求的根路径。
 
 ### Compiles and hot-reloads for development
 ```
@@ -42,6 +60,12 @@ npm run serve
 ```
 npm run build
 ```
+
+### Compiles and minifies for dev
+```
+npm run build-dev
+```
+
 
 > 把`docs`目录下的内容放在web服务器就可以啦
 
