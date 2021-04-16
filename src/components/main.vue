@@ -23,12 +23,12 @@
                 <div slot="trigger"></div>
             </Sider>
             <Layout class="layout-right">
-            <Header class="layout-header-bar">欢迎使用
+            <Header class="layout-header-bar" :style="{position: 'fixed', width: '100%', zIndex: 100}">欢迎使用
                 <Input v-model="search" placeholder="请输入内容搜搜..." class="search" @on-enter="searchData"/>
                 <span class="search-text"><Button type="primary" icon="search" @click="searchData">搜索</Button></span>
                 <Button type="success" icon="plus-round" @click="resetSearch" v-show="searchStatus" >重置</Button>
             </Header>
-                <Content >
+                <Content :style="{margin: '88px 20px 0', background: '#fff', minHeight: '500px'}">
                     <NavSub :data="data" :spinShow="spinShow"></NavSub>
                 </Content>
                 <Footer class="layout-footer-center">lenav ©2021 Created by Lework <a href="https://github.com/lework/lenav" target="_blank">GitHub</a></Footer>
@@ -179,10 +179,6 @@ export default {
 .ivu-layout-sider {
     z-index: 100;
 }
-/* .ivu-layout-has-sider {
-    height: 100%;
-    position: fixed;
-} */
 .logo-con img {
     width: 180px;
     margin: 10px;
@@ -207,7 +203,7 @@ export default {
 .ivu-layout-header {
     @media screen {
         @media (max-width: 768px) {
-            padding: 0 8px;
+            padding: 0 0 0 20px;
         }     
     }
 }
