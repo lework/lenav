@@ -2,7 +2,7 @@
 <template>
     <div class="layout" v-if="data">
         <Layout>
-            <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
+            <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed" :style="{position: 'fixed', height: '100vh', left: 0}">
             <div class="logo-con">
                 <a href="./"><img src="logo.png" key="max-logo" /></a>
             </div>
@@ -22,7 +22,7 @@
                 </Menu>
                 <div slot="trigger"></div>
             </Sider>
-            <Layout>
+            <Layout class="layout-right">
             <Header class="layout-header-bar">欢迎使用
                 <Input v-model="search" placeholder="请输入内容搜搜..." class="search" @on-enter="searchData"/>
                 <span class="search-text"><Button type="primary" icon="search" @click="searchData">搜索</Button></span>
@@ -210,5 +210,13 @@ export default {
             padding: 0 8px;
         }     
     }
+}
+.layout-right {
+    margin-left: 200px;
+    @media screen {
+      @media (max-width: 768px) {
+          margin-left: 0px;
+      }     
+  }
 }
 </style>
