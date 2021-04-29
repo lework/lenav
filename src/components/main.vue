@@ -119,6 +119,9 @@ export default {
             this.searchStatus = true
             this.serarchNum = 0
             for (let d in this.data) {
+                if ( ! this.data[d].hasOwnProperty("nav")) {
+                  continue
+                }
                 for (let i = 0; i < this.data[d]['nav'].length; i++) {
                     if (this.data[d]['nav'][i]['name'].toLowerCase().indexOf(this.search.toLowerCase()) === -1) {
                         if (this.data[d]['nav'][i]['link'].toLowerCase().indexOf(this.search.toLowerCase()) === -1) {
