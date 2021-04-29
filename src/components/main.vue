@@ -70,7 +70,7 @@ export default {
         }
     },
     created: function() {
-        console.group('------Create创建前状态------');
+        window.console.group('------Create创建前状态------');
         this._getData()
     },
     methods: {
@@ -83,7 +83,6 @@ export default {
                   for (let key in this.data) {
                     if (this.data[key].hasOwnProperty("children")) {
                       this.childrenList = this.childrenList.concat(this.data[key].children);
-                      console.log(this.childrenList)
                     }
                   }
                   this.spinShow = false;
@@ -94,7 +93,7 @@ export default {
                       duration: 120,
                       closable: true
                   });
-                  console.log("错误信息：",e);
+                  window.console.log("错误信息：",e);
               });
         },
         jumpAnchor (name) {

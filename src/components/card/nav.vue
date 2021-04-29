@@ -111,7 +111,6 @@ export default {
   },
   methods: {
     openDoc(item) {
-      console.log(item)
       this.modalDoc = true
       this.docSpinShow = true
       this.$axios
@@ -121,7 +120,7 @@ export default {
         })
         .catch(e => {
           this.$Message.error("获取数据失败!");
-          console.log(e);
+          window.console.log(e);
         })
         .then(() => {
           this.docSpinShow = false
@@ -130,10 +129,8 @@ export default {
     closeDoc() {
       this.docData = ""
       this.modalDoc = false
-      console.log("close")
     },
     jumpLink(item) {
-      console.log(item)
       item.title = this.subTitle ? this.subTitle : item.title
       this.saveUsedList(item)
       window.open(item.link)
@@ -145,14 +142,14 @@ export default {
         this.$Message.success('复制成功')
         // 释放内存
         clipboard.destroy()
-        console.log(e)
+        window.console.log(e)
       })
       clipboard.on('error', (e) => {
         // 不支持复制
         this.$Message.error('该浏览器不支持自动复制')
         // 释放内存
         clipboard.destroy()
-        console.log(e)
+        window.console.log(e)
       })
     },
     addFavorite(item) {
