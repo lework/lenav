@@ -15,15 +15,23 @@
                         <Icon type="ios-navigate"></Icon>
                         <span>常用网址</span>
                     </MenuItem>
-                    <MenuItem :name="item.title" v-for="(item,index) in data" :key="index">
-                        <Icon type="ios-search"></Icon>
-                        <span>{{ item.title }}</span>
-                    </MenuItem>
+                    <template v-for="(item,index) in data" >
+                      <MenuItem :name="item.title" v-if="! item.children && childrenList.indexOf(index) < 0" :key="index">
+                          <Icon :type="item.icon ? item.icon : 'ios-search'"></Icon>
+                          <span>{{ item.title }}</span>
+                      </MenuItem>
+                      <Submenu :name="item.title" v-if="item.children" :key="index">
+                          <template slot="title"><Icon :type="item.icon ? item.icon : 'ios-search'"></Icon> <span>{{ item.title }}</span></template>
+                          <MenuItem :name="data[key].title" v-for="key in item.children" :key="key">
+                            <span>{{ data[key].title }}</span>
+                          </MenuItem>
+                      </Submenu>
+                    </template >
                 </Menu>
                 <div slot="trigger"></div>
             </Sider>
             <Layout class="layout-right">
-            <Header class="layout-header-bar" :style="{position: 'fixed', width: '100%', zIndex: 100}">欢迎使用
+            <Header class="layout-header-bar" :style="{position: 'fixed', width: '100%', zIndex: 99}">欢迎使用
                 <Input v-model="search" placeholder="请输入内容搜搜..." class="search" @on-enter="searchData"/>
                 <span class="search-text"><Button type="primary" icon="search" @click="searchData">搜索</Button></span>
                 <Button type="success" icon="plus-round" @click="resetSearch" v-show="searchStatus" >重置</Button>
@@ -47,6 +55,7 @@ export default {
             search: '',
             searchStatus: false,
             data: null,
+            childrenList: [],
             sourceData: '',
             serarchNum: 0,
             spinShow: false
@@ -71,6 +80,12 @@ export default {
               .get("/data/nav.json") // 获取nav数据
               .then(rep => {
                   this.data = rep.data;
+                  for (let key in this.data) {
+                    if (this.data[key].hasOwnProperty("children")) {
+                      this.childrenList = this.childrenList.concat(this.data[key].children);
+                      console.log(this.childrenList)
+                    }
+                  }
                   this.spinShow = false;
               })
               .catch(e => {
@@ -83,13 +98,13 @@ export default {
               });
         },
         jumpAnchor (name) {
-            if (document.documentElement.clientWidth <= 768 ){
-                this.isCollapsed = true
-            }
-            document.querySelector('#' + name).scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            })
+          if (document.documentElement.clientWidth <= 768 ){
+            this.isCollapsed = true
+          }
+
+          let offset = 66; 
+          let el = document.querySelector('#' + name); 
+          window.scroll({ top: (el.offsetTop - offset), left: 0, behavior: 'smooth' });
         },
         searchData () {
             if (typeof this.search === 'undefined' || this.search === null || this.search === '') {

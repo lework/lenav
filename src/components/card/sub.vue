@@ -21,7 +21,7 @@
             </Card>
         </div>
         <div :id="item.title"  v-for="(item,index) in data" :key="index" >
-            <Card class="nodeCard">
+            <Card class="nodeCard" v-if="item.nav">
                 <p slot="title" class="anchor">{{ item.title }}<a :href="'#' + item.title">#</a> </p>
                 <p slot="extra">共计：{{ item.nav.length}} 个项目</p>
                 <Nav :navData="item.nav" :subTitle="item.title" :spinShow="spinShow"></Nav>

@@ -23,6 +23,7 @@
           <div class="mu" slot="content">
             <ButtonGroup vertical>
               <Button icon="ios-send" @click="jumpLink(item)">跳转</Button>
+              <Button icon="md-document" v-if="item.doc" @click="openDoc(item)" >使用文档</Button>
               <Button icon="md-heart" @click="addFavorite(item)"
                 >添加到我的收藏</Button
               >
@@ -47,15 +48,53 @@
         </Poptip>
       </li>
     </ul>
+    <Modal  v-model="modalDoc" fullscreen footer-hide title="使用文档" @on-cancel="closeDoc">
+      <div class="usage-content" v-if="modalDoc">
+          <div class="toc">
+            目录
+          <div id="toc" />
+          </div>
+          <div class="markdown">
+            <vue-markdown :source="docData" :toc=true toc-id="toc" ></vue-markdown>
+          </div>
+          <Spin size="large" fix v-if="docSpinShow"></Spin>
+      </div>
+    </Modal>
     <Spin size="large" fix v-if="spinShow"></Spin>
   </div>
 </template>
 
 <script>
 import Clipboard from 'clipboard'
+import VueMarkdown from "vue-markdown";
+
+
+import hljs from 'highlight.js';
+// import "highlight.js/styles/atom-one-dark.css";
+import 'highlight.js/styles/github.css';
+
+
+let highlightCode = () => {
+  let preEl = document.querySelectorAll("pre");
+  let codeEl = document.querySelectorAll("code");
+  preEl.forEach(el => {
+    hljs.highlightBlock(el);
+  });
+  codeEl.forEach(el => {
+    hljs.highlightBlock(el);
+  });
+};
+
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  data () {
+    return {
+      modalDoc: false,
+      docSpinShow: false,
+      docData: ""
+    }
+  },
   props: {
     navData: {
       default: [],
@@ -71,6 +110,28 @@ export default {
     },
   },
   methods: {
+    openDoc(item) {
+      console.log(item)
+      this.modalDoc = true
+      this.docSpinShow = true
+      this.$axios
+        .get(item.doc)
+        .then(rep => {
+          this.docData = rep.data;
+        })
+        .catch(e => {
+          this.$Message.error("获取数据失败!");
+          console.log(e);
+        })
+        .then(() => {
+          this.docSpinShow = false
+        })
+    },
+    closeDoc() {
+      this.docData = ""
+      this.modalDoc = false
+      console.log("close")
+    },
     jumpLink(item) {
       console.log(item)
       item.title = this.subTitle ? this.subTitle : item.title
@@ -132,6 +193,15 @@ export default {
   computed: {
     ...mapGetters(['favoriteList']),
   },
+  components: {
+    VueMarkdown
+  },
+  mounted() {
+    highlightCode();
+  },
+  updated() {
+    highlightCode();
+  }
 }
 </script>
 
@@ -142,6 +212,7 @@ span {
   word-break: break-all;
   word-wrap: break-word;
 }
+
 .top {
   height: 36px;
 }
@@ -192,4 +263,59 @@ span {
   width: 120px;
   color: gray;
 }
+
+.usage-content {
+  font-size: 14px;
+  width: 100%;
+  padding: 0px 80px 20px 80px;
+  @media screen {
+    @media (max-width: @min-width) {
+      padding: 0 10px 10px 10px;
+    }
+  }
+}
+
+.usage-content /deep/ ul {
+  padding-left: 25px;
+}
+
+.usage-content /deep/ ol {
+  padding-left: 25px;
+}
+.usage-content /deep/ h2 {
+  padding-top: 90px;
+  margin-top: -90px;
+}
+
+.usage-content /deep/ blockquote {
+  margin-top: 5px;
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+}
+
+.toc {
+  width: 200px;
+  position: fixed;
+  @media screen {
+    @media (max-width: @min-width) {
+      position: relative;
+      margin-left: 0px;
+    }
+  }
+}
+.toc /deep/ a {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.markdown {
+  margin-left: 210px;
+  @media screen {
+    @media (max-width: @min-width) {
+      position: relative;
+      margin-left: 0px;
+    }
+  }
+}
+
 </style>

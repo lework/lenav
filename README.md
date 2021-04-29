@@ -16,17 +16,29 @@ vue2 + vuex + vue-router + vue-lazyload + iview +  clipboard + js-cookie + webpa
 {
   "company": {
       "title": "公司环境地址",
-      "name": "com",
+      "name": "company",
+      "icon": "ios-contacts-outline",
       "nav": [
           {
               "icon": "./static/images/jenkins.png",
               "name": "jenkins",
               "desc": "测试环境Jenkins",
-              "link": "http://127.0.0.1:8080/"
+              "link": "http://127.0.0.1:8080/",
+              "doc": "/data/docs/jenkins.md"
           }
       ]
   }
 }
+```
+
+分组菜单
+
+```json
+  "test": {
+    "title": "测试环境",
+    "name": "test",
+    "children": ["test1", "test2","test3"]
+  }
 ```
 
 ## 项目运行

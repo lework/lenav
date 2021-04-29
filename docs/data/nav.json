@@ -1,13 +1,15 @@
 {
   "company": {
       "title": "公司环境地址",
-      "name": "com",
+      "name": "company",
+      "icon": "ios-contacts-outline",
       "nav": [
           {
               "icon": "./static/images/jenkins.png",
               "name": "jenkins",
               "desc": "测试环境Jenkins",
-              "link": "http://127.0.0.1:8080/"
+              "link": "http://127.0.0.1:8080/",
+              "doc": "/data/docs/jenkins.md"
           },
           {
               "icon": "./static/images/confluence.png",
@@ -58,6 +60,11 @@
               "link": "http://127.0.0.1:7300/login"
           }
       ]
+  },
+  "test": {
+    "title": "测试环境",
+    "name": "test",
+    "children": ["test1", "test2","test3"]
   },
   "test1": {
       "title": "Test1环境地址",
