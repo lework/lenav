@@ -15,7 +15,8 @@
               "icon": "./static/images/confluence.png",
               "name": "Confluence",
               "desc": "Confluence, 技术文档",
-              "link": "http://127.0.0.1:8090/"
+              "link": "http://127.0.0.1:8090/",
+              "doc": "https://www.atlassian.com/software/confluence"
           },
           {
               "icon": "./static/images/nexus.png",
