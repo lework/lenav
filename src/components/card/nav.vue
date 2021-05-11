@@ -111,6 +111,10 @@ export default {
   },
   methods: {
     openDoc(item) {
+      if(item.doc.startsWith("http")) {
+        window.open(item.doc)
+        return
+      }
       this.modalDoc = true
       this.docSpinShow = true
       this.$axios
